@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Lista, ListaItem } from "../../app/classes/index";
-import { AlertController, NavController } from 'ionic-angular';
+import { AlertController, NavController, List } from 'ionic-angular';
 import { ListaDeseosService } from '../../app/services/lista-deseos.service';
 
 @Component({
@@ -39,12 +39,20 @@ export class AgregarComponent implements OnInit {
 
       guardarLista (){
         if (this.nombreLista.length == 0) {
-         let alert = this.alertCtrl.create({
-            title: '¡Atención!',
+        let alert = this.alertCtrl.create({
+          title: '¡Atención!',
           subTitle: 'La lista debe tener un Nombre',
           buttons: ['OK']
          });
+        alert.present();
          return;
         }
+
+        let lista = new Lista (this.nombreLista);
+        lista.items = this.items;
+        this._listaDeseos.addList(lista);
+
+        //volver a la pantalla anterior
+        this.navCtrl.pop();
      }
 }

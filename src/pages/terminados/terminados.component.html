@@ -1,9 +1,39 @@
 <ion-header>
-    <ion-navbar>
-      <ion-title>Terminados</ion-title>
-    </ion-navbar>
-  </ion-header>
-  
-  <ion-content padding>
-    <h2>Terminados</h2>
-  </ion-content>
+  <ion-navbar color="primary">
+      <ion-title>Terminadas</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<h2>Listas Termiandas</h2>
+<ion-content padding>
+
+        <ion-grid *ngIf="(_listaDeseos.listas | pendientes:false) == 0">
+                <ion-row>
+                    <ion-col class="text-center caja-vacia">
+                            <ion-icon class="icono-grande" ios="ios-ionitron" md="md-ionitron"></ion-icon>
+                            <p>No hay ninguna Lista terminada.</p>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+
+  <ion-card *ngFor="let lista of _listaDeseos.listas | pendientes:false ; let i = index">
+      <ion-item color="dark" (click)="irDetalle(lista, i)">
+          <h2>{{lista.nombre}}</h2>
+          <ion-note item-right>
+              {{lista.items.length}} items
+          </ion-note>
+      </ion-item>
+      <ion-list>
+          <ion-item (click)="irDetalle(lista, i)"
+                    *ngFor="let item of lista.items">
+              <ion-icon *ngIf="!item.completado" ios="ios-square" md="md-square"></ion-icon>
+              <ion-icon *ngIf="item.completado" ios="ios-checkbox" md="md-checkbox"></ion-icon>
+              <span [class.tachado]="item.completado">{{item.nombre}}</span>
+          </ion-item>
+          <ion-item  *ngIf="lista.items.length > 2" class="text-center">
+                  <ion-icon color="primary" ios="ios-arrow-dropdown-circle" md="md-arrow-dropdown-circle"
+                  (click)="irDetalle(lista, i)"></ion-icon>
+          </ion-item>
+      </ion-list>
+  </ion-card>
+</ion-content>
